@@ -38,7 +38,10 @@ pipeline {
                    artifactPath = filesByGlob[0].path;
                    artifactExists = fileExists artifactPath;
                    if(artifactExists) {
-                       sh "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus -Durl=$NEXUS_URL -DpomFile=pom.xml -Dfile=$artifactPath"
+                      withMaven(maven:'Maven', mavenSettingsConfig: "settings.xml"){
+                        sh "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus -Durl=$NEXUS_URL -DpomFile=pom.xml -Dfile=$artifactPath"
+                      }
+                      
                    } else {
                        error "*** File: ${artifactPath}, could not be found";
                    }
