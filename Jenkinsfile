@@ -36,10 +36,9 @@ pipeline {
                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                    artifactPath = filesByGlob[0].path;
-                   sh "echo $artifactPath"
                    artifactExists = fileExists artifactPath;
                    if(artifactExists) {
-                       publishToNexus(artifactPath, NEXUS_URL)
+                       sh "mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=nexus -Durl=$NEXUS_URL -DpomFile=pom.xml -Dfile=$artifactPath"
                    } else {
                        error "*** File: ${artifactPath}, could not be found";
                    }
