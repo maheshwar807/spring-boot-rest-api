@@ -8,7 +8,7 @@ pipeline {
    environment {
        NEXUS_VERSION = "nexus3"
        NEXUS_PROTOCOL = "http"
-       NEXUS_URL = "35.225.210.223:8081"
+       NEXUS_URL = "http://35.225.210.223:8081/repository/maven-snapshots/"
        NEXUS_REPOSITORY = "maven-snapshots"
        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
    }
@@ -38,26 +38,7 @@ pipeline {
                    artifactPath = filesByGlob[0].path;
                    artifactExists = fileExists artifactPath;
                    if(artifactExists) {
-                       echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
-                       nexusArtifactUploader(
-                           nexusVersion: NEXUS_VERSION,
-                           protocol: NEXUS_PROTOCOL,
-                           nexusUrl: NEXUS_URL,
-                           groupId: pom.groupId,
-                           version: pom.version,
-                           repository: NEXUS_REPOSITORY,
-                           credentialsId: NEXUS_CREDENTIAL_ID,
-                           artifacts: [
-                               [artifactId: pom.artifactId,
-                               classifier: '',
-                               file: artifactPath,
-                               type: pom.packaging],
-                               [artifactId: pom.artifactId,
-                               classifier: '',
-                               file: "pom.xml",
-                               type: "pom"]
-                           ]
-                       );
+                       publishToNexus(artifactPath, NEXUS_URL)
                    } else {
                        error "*** File: ${artifactPath}, could not be found";
                    }
