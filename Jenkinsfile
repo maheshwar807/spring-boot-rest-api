@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        sh "mvn clean install sonar:sonar -s settings.xml"
+                        sh "mvn clean install sonar:sonar"
                     }
                 }
             }
