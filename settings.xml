@@ -16,6 +16,28 @@
         </mirror>
       </mirrors>
       <proxies/>
-      <profiles/>
-      <activeProfiles/>
+      <profiles>
+            <profile>
+                  <id>nexus</id>
+                  <repositories>
+                        <repository>
+                              <id>maven-releases</id>
+                              <url>http://35.225.210.223:8081/repository/maven-releases/</url>
+                        </repository>
+                        <repository>
+                              <id>maven-snapshots</id>
+                              <url>http://35.225.210.223:8081/repository/maven-snapshots/</url>
+                              <releases>
+                                    <enabled>false</enabled>
+                              </releases>
+                              <snapshots>
+                                    <enabled>true</enabled>
+                              </snapshots>
+                        </repository>
+                  </repositories>
+            </profile>      
+      </profiles>
+      <activeProfiles>
+            <activeProfile>nexus</activeProfile>
+      </activeProfiles>
 </settings>
